@@ -1,18 +1,18 @@
 //
-//  Standards.swift
+//  RecordsView.swift
 //  Apex
 //
-//  Created by Maddisen Mohnsen on 12/23/25.
+//  Created by Maddisen Mohnsen on 12/24/25.
 //
 
 import SwiftUI
 
-struct Standards: View {
+struct RecordsView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 
 #Preview {
-    Standards()
+    RecordsView()
 }

@@ -10,35 +10,6 @@ import SwiftUI
 struct ScoreResultsView: View {
     @Bindable var apexScore: ApexScore
     
-    private var category: String {
-        if apexScore.totalScore < 400 {
-           return "DEVELOPING"
-        } else if apexScore.totalScore < 600 {
-            return "ATHLETIC"
-        } else if apexScore.totalScore < 700 {
-            return "ATHLETIC AF"
-        } else if apexScore.totalScore < 800 {
-            return "PRO"
-        } else {
-            return "APEX"
-        }
-    }
-    
-    private func colorForRank(_ title: String) -> Color {
-        switch title {
-        case "APEX":
-            return .orange
-        case "PRO":
-            return .green
-        case "ATHLETIC AF":
-            return .purple
-        case "ATHLETIC":
-            return .blue
-        default:
-            return .white
-        }
-    }
-    
     private func determineQuadrant(x: Int, y: Int) -> QuadrantPosition {
         let midpoint = 125 // Half of 250
         
@@ -57,7 +28,7 @@ struct ScoreResultsView: View {
         NavigationStack {
             ZStack{
                 LinearGradient(colors: [
-                    colorForRank(category),
+                    colorForRank(category(apexScore.totalScore)),
                     Color(red: 48/255, green: 41/255, blue: 47/255)
                 ], startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
@@ -70,10 +41,10 @@ struct ScoreResultsView: View {
                                 .fontWeight(.semibold)
                                 .foregroundColor(.white)
                             
-                            Text(category)
+                            Text(category(apexScore.totalScore))
                                 .font(.system(size: 36))
                                 .fontWeight(.semibold)
-                                .foregroundColor(colorForRank(category))
+                                .foregroundColor(colorForRank(category(apexScore.totalScore)))
                             
                             Text("Out of 1000 points")
                                 .font(.system(size: 18))

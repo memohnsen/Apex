@@ -18,14 +18,14 @@ struct ContentView: View {
             Tab("Home", systemImage: "house", value: "Home") {
                 HomeView()
             }
-            Tab("Calculator", systemImage: "pencil.and.list.clipboard", value: "Calculator") {
+            Tab("Calculator", systemImage: "minus.forwardslash.plus", value: "Calculator") {
                 ScoreCalculatorView(apexScore: apexScore)
             }
-            Tab("Leaderboard", systemImage: "trophy", value: "Leaderboard") {
+            Tab("Leaderboard", systemImage: "list.clipboard", value: "Leaderboard") {
                 LeaderboardView()
             }
-            Tab("Standards", systemImage: "folder", value: "Standards") {
-                LeaderboardView()
+            Tab("Records", systemImage: "trophy", value: "Records") {
+                RecordsView()
             }
         }
     }
