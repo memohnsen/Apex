@@ -2,6 +2,8 @@
 
 A SwiftUI iOS application for tracking and analyzing athlete performance data from Apex competitions. The app provides comprehensive views of athlete scores, event results, leaderboards, and record holders.
 
+[![Watch the video](https://youtube.com/shorts/Y5pV0EAWqjc)](https://youtube.com/shorts/Y5pV0EAWqjc)
+
 ## Features
 
 - **Athlete Search**: Browse and filter athletes by gender and competition
