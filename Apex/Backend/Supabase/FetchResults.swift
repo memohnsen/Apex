@@ -48,6 +48,8 @@ class ResultsModel {
     var eventResults: [ApexResults] = []
     var events: [Events] = []
     var athletes: [Athletes] = []
+    var specificAthlete: [ApexResults] = []
+
     
     func fetchResults(gender: String) async {
         isLoading = true
@@ -172,6 +174,42 @@ class ResultsModel {
             
             self.athletes.removeAll()
             self.athletes = row
+            
+        } catch let DecodingError.keyNotFound(key, context) {
+            print("Key '\(key.stringValue)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch let DecodingError.typeMismatch(type, context) {
+            print("Type '\(type)' mismatch:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch let DecodingError.valueNotFound(value, context) {
+            print("Value '\(value)' not found:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch let DecodingError.dataCorrupted(context) {
+            print("Data corrupted:", context.debugDescription)
+            print("codingPath:", context.codingPath)
+        } catch {
+            print("Error: \(error.localizedDescription)")
+            print("Full error: \(error)")
+        }
+        
+        isLoading = false
+    }
+    
+    func fetchSpecificAthlete(name: String) async {
+        isLoading = true
+        error = nil
+        
+        do {
+            let response = try await supabase
+                .from("apex_event_results")
+                .select()
+                .eq("athlete_name", value: name)
+                .execute()
+            
+            let row = try JSONDecoder().decode([ApexResults].self, from: response.data)
+            
+            self.specificAthlete.removeAll()
+            self.specificAthlete = row
             
         } catch let DecodingError.keyNotFound(key, context) {
             print("Key '\(key.stringValue)' not found:", context.debugDescription)

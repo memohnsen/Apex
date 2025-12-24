@@ -208,51 +208,6 @@ struct ScoreBySection: View {
         }
         .cardStyling()
     }
-    
-    private func colorForSection(_ title: String) -> Color {
-        switch title {
-        case "Speed":
-            return .green
-        case "Power":
-            return .orange
-        case "Strength":
-            return .purple
-        case "Endurance":
-            return .blue
-        default:
-            return .blue
-        }
-    }
-}
-
-struct CustomProgressBar: View {
-    let value: Int
-    let total: Int
-    let fillColor: Color
-    
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack(alignment: .leading) {
-                // Background track
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white.opacity(0.2))
-                    .frame(height: 12)
-                
-                // Fill bar
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(
-                        LinearGradient(
-                            colors: [fillColor, fillColor.opacity(0.7)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                    )
-                    .frame(width: geometry.size.width * CGFloat(value) / CGFloat(total), height: 12)
-                    .animation(.easeInOut(duration: 0.5), value: value)
-            }
-        }
-        .frame(height: 12)
-    }
 }
 
 enum QuadrantPosition {

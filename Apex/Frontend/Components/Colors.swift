@@ -71,3 +71,32 @@ func colorByEvent(_ name: String) -> Color {
         return .purple
     }
 }
+
+func colorForSection(_ title: String) -> Color {
+    switch title {
+    case "Speed":
+        return .green
+    case "Fast Forty":
+        return .green
+    case "Power":
+        return .orange
+    case "Max Toss":
+        return .orange
+    case "The Vertical":
+        return .orange
+    case "The Broad":
+        return .orange
+    case "Strength":
+        return .purple
+    case "The Push":
+        return .purple
+    case "The Pull":
+        return .purple
+    case "Endurance":
+        return .blue
+    case "The Mile":
+        return .blue
+    default:
+        return .blue
+    }
+}
