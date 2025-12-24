@@ -11,6 +11,7 @@ import Foundation
 
 struct ContentView: View {
     @State private var selectedTab: String = "Home"
+    @State private var search: String = ""
     @State private var apexScore: ApexScore = ApexScore()
     
     var body: some View {
@@ -24,8 +25,11 @@ struct ContentView: View {
             Tab("Leaderboard", systemImage: "list.clipboard", value: "Leaderboard") {
                 LeaderboardView()
             }
-            Tab("Records", systemImage: "trophy", value: "Records") {
-                RecordsView()
+            Tab("Search", systemImage: "magnifyingglass", value: "Start List", role: .search) {
+                NavigationStack {
+                    AthleteSearchView()
+                }
+                .searchable(text: $search)
             }
         }
     }

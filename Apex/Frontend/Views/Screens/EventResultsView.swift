@@ -1,17 +1,19 @@
 //
-//  LeaderboardView.swift
+//  EventResultsView.swift
 //  Apex
 //
-//  Created by Maddisen Mohnsen on 12/23/25.
+//  Created by Maddisen Mohnsen on 12/24/25.
 //
 
 import SwiftUI
 
-struct LeaderboardView: View {
+struct EventResultsView: View {
     @Bindable private var viewModel = ResultsModel()
-    var results: [ApexResults] { viewModel.results }
+    var eventResults: [ApexResults] { viewModel.eventResults }
     @State private var genderOptions: [String] = ["Men", "Women"]
     @State private var gender: String = "Men"
+    
+    var events: [Events]
 
     var body: some View {
         NavigationStack{
@@ -33,30 +35,30 @@ struct LeaderboardView: View {
                         .pickerStyle(.segmented)
                         .padding()
                         
-                        LeaderboardSection(results: results)
+                        ResultsSection(eventResults: eventResults)
                     }
                     .padding(.bottom, 30)
                 }
             }
-            .navigationTitle("Apex Leaderboard")
+            .navigationTitle(events.first?.event_name ?? "Apex Leaderboard")
             .preferredColorScheme(.dark)
         }
         .task {
-            await viewModel.fetchResults(gender: gender)
+            await viewModel.fetchResultsByEvent(gender: gender, event: events.first?.event_name ?? "")
         }
         .onChange(of: gender) {
             Task {
-                await viewModel.fetchResults(gender: gender)
+                await viewModel.fetchResultsByEvent(gender: gender, event: events.first?.event_name ?? "")
             }
         }
     }
 }
 
-struct LeaderboardSection: View {
-    var results: [ApexResults]
+struct ResultsSection: View {
+    var eventResults: [ApexResults]
     
     var body: some View {
-        ForEach(results, id: \.id) { result in
+        ForEach(eventResults, id: \.id) { result in
             HStack {
                 HStack{
                     Text("\(result.athlete_rank)")
@@ -105,5 +107,5 @@ struct LeaderboardSection: View {
 }
 
 #Preview {
-    LeaderboardView()
+    EventResultsView(events: [Events(event_name: "Austin 2025", date: "2025-10-26")])
 }

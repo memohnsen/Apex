@@ -47,3 +47,15 @@ func podiumColors(_ score: Int) -> Color {
         return .white
     }
 }
+
+func colorByEvent(_ name: String) -> Color {
+    if name == "Fast Forty" {
+        return .green
+    } else if name == "Max Toss" || name == "The Broad" || name  == "The Vertical" {
+        return .orange
+    } else if name == "The Mile" {
+        return .blue
+    } else {
+        return .purple
+    }
+}
