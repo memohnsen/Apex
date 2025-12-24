@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+// Color Pallette: https://coolors.co/02111b-3f4045-30292f-5d737e-fcfcfc
+
+struct BackgroundColor: View {
+    var body: some View {
+        LinearGradient(colors: [
+            Color(red: 2/255, green: 17/255, blue: 27/255),
+            Color(red: 48/255, green: 41/255, blue: 47/255)
+        ], startPoint: .top, endPoint: .bottom)
+        .ignoresSafeArea()
+    }
+}
+
 func category(_ score: Int) -> String {
     if score < 400 {
        return "DEVELOPING"

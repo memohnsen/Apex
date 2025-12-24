@@ -21,18 +21,13 @@ struct AthleteSearchView: View {
     var body: some View {
         NavigationStack{
             ZStack{
-                LinearGradient(colors: [
-                    Color(red: 2/255, green: 17/255, blue: 27/255),
-                    Color(red: 48/255, green: 41/255, blue: 47/255)
-                ], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
-                
+                BackgroundColor()
                 
                 ScrollView {
                     VStack{
                         AthleteList(athletes: athletes)
                     }
-                    .padding([.horizontal, .vertical])
+                    .padding(.vertical)
                 }
             }
             .navigationTitle("Apex Athletes")
@@ -127,18 +122,7 @@ struct AthleteList: View {
                     Image(systemName: "chevron.right")
                 }
                 .foregroundStyle(.white)
-                .frame(maxWidth: .infinity)
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                        )
-                )
-                .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                .padding(.bottom, 12)
+                .cardStyling()
             }
         }
     }

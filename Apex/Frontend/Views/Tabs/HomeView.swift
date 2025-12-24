@@ -23,11 +23,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack{
             ZStack{
-                LinearGradient(colors: [
-                    Color(red: 2/255, green: 17/255, blue: 27/255),
-                    Color(red: 48/255, green: 41/255, blue: 47/255)
-                ], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
+                BackgroundColor()
                 
                 ScrollView{
                     VStack(alignment: .leading){
@@ -35,25 +31,14 @@ struct HomeView: View {
                             Text("Records")
                                 .font(.title.bold())
                                 .foregroundStyle(.white)
-                                .frame(maxWidth: .infinity)
-                                .padding(16)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 16)
-                                                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                                        )
-                                )
-                                .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                                .padding(.bottom, 12)
+                                .cardStyling()
                         }
                         
                         UpcomingEventsView(upcomingEvents: upcomingEvents)
                         
                         CompletedEventsView(events: events)
                     }
-                    .padding([.horizontal, .bottom])
+                    .padding(.bottom)
                 }
             }
             .navigationTitle("Apex")
@@ -74,6 +59,7 @@ struct UpcomingEventsView: View {
             Text("Upcoming Events")
                 .bold()
                 .font(.title)
+                .padding(.horizontal)
             
             ForEach(upcomingEvents, id: \.self) { event in
                 let formattedDate = dateFormat(event.date) ?? "N/A"
@@ -92,18 +78,7 @@ struct UpcomingEventsView: View {
                     .padding(.horizontal)
                     .foregroundStyle(.white)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                        )
-                )
-                .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                .padding(.bottom, 12)
+                .cardStyling()
             }
         }
         .padding(.bottom)
@@ -118,6 +93,7 @@ struct CompletedEventsView: View {
             Text("Completed Events")
                 .bold()
                 .font(.title)
+                .padding(.horizontal)
             
             ForEach(events, id: \.self) { event in
                 let formattedDate = dateFormat(event.date) ?? "N/A"
@@ -136,18 +112,7 @@ struct CompletedEventsView: View {
                     .padding(.horizontal)
                     .foregroundStyle(.white)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                        )
-                )
-                .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                .padding(.bottom, 12)
+                .cardStyling()
             }
         }
     }

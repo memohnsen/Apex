@@ -13,12 +13,7 @@ struct AthleteDetailsView: View {
     var body: some View {
         NavigationStack{
             ZStack{
-                LinearGradient(colors: [
-                    Color(red: 2/255, green: 17/255, blue: 27/255),
-                    Color(red: 48/255, green: 41/255, blue: 47/255)
-                ], startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
-                
+                BackgroundColor()
                 
                 ScrollView {
                     VStack{

@@ -51,19 +51,7 @@ struct ScoreResultsView: View {
                                 .italic()
                                 .foregroundColor(.white.opacity(0.5))
                         }
-                        .frame(maxWidth: .infinity)
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                                )
-                        )
-                        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                        .padding(.horizontal)
-                        .padding(.bottom, 12)
+                        .cardStyling()
                         
                         ScoreBySection(title: "Speed", score: apexScore.speedScore, icon: "speed")
                         ScoreBySection(title: "Power", score: apexScore.powerScore, icon: "power")
@@ -218,19 +206,7 @@ struct ScoreBySection: View {
                 fillColor: colorForSection(title)
             )
         }
-        .frame(maxWidth: .infinity)
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                )
-        )
-        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-        .padding(.horizontal)
-        .padding(.bottom, 12)
+        .cardStyling()
     }
     
     private func colorForSection(_ title: String) -> Color {
@@ -348,17 +324,7 @@ struct AthleticProfileGrid: View {
                 .padding(.top, 12)
                 .padding(.bottom, 16)
         }
-        .background(
-            RoundedRectangle(cornerRadius: 16)
-                .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                .overlay(
-                    RoundedRectangle(cornerRadius: 16)
-                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                )
-        )
-        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-        .padding(.horizontal)
-        .padding(.bottom, 12)
+        .cardStyling()
     }
     
     private func getLabel(for position: QuadrantPosition) -> String {
