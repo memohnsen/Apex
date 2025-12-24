@@ -38,6 +38,7 @@ struct Events: Codable, Hashable {
 struct Athletes: Codable, Hashable {
     var id: Int
     var athlete_name: String
+    var apex_score: Int?
 }
 
 @MainActor @Observable
@@ -164,11 +165,16 @@ class ResultsModel {
         error = nil
         
         do {
-            let response = try await supabase
+            var query = supabase
                 .from("apex_event_results")
-                .select("id, athlete_name")
-                .eq("gender", value: gender)
-                .execute()
+                .select("id, athlete_name, apex_score")
+            
+            // Only filter by gender if not "All"
+            if gender != "All" {
+                query = query.eq("gender", value: gender)
+            }
+            
+            let response = try await query.execute()
             
             let row = try JSONDecoder().decode([Athletes].self, from: response.data)
             

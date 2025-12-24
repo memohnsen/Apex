@@ -10,36 +10,24 @@ import SwiftUI
 struct AthleteDetailsView: View {
     @Bindable var apexScore: ApexScore = ApexScore()
     @Bindable private var viewModel = ResultsModel()
-    var specificAthlete: [ApexResults] { viewModel.specificAthlete }
     
-    var athlete: Athletes
+    var athlete: Athletes?
+    var eventResults: [ApexResults]?
+    
+    // Single source of truth - use eventResults if available, otherwise fetch from viewModel
+    private var displayResults: [ApexResults] {
+        if let eventResults = eventResults {
+            return eventResults
+        }
+        return viewModel.specificAthlete
+    }
     
     let columns = [
         GridItem(.adaptive(minimum: 150))
     ]
     
-    private func ordinalSuffix(for number: Int) -> String {
-        let ones = number % 10
-        let tens = (number % 100) / 10
-        
-        if tens == 1 {
-            return "\(number)th"
-        }
-        
-        switch ones {
-        case 1:
-            return "\(number)st"
-        case 2:
-            return "\(number)nd"
-        case 3:
-            return "\(number)rd"
-        default:
-            return "\(number)th"
-        }
-    }
-    
     private func updateScores() {
-        guard let firstResult = specificAthlete.first else { return }
+        guard let firstResult = displayResults.first else { return }
         apexScore.fortyDash = firstResult.fast_forty
         apexScore.maxToss = firstResult.max_toss
         apexScore.theBroad = firstResult.the_broad
@@ -64,53 +52,7 @@ struct AthleteDetailsView: View {
                 
                 ScrollView {
                     VStack{
-                        VStack {
-                            Text("APEX SCORE: \(specificAthlete.first?.apex_score ?? 0)")
-                                .font(.title.bold())
-                            
-                            Text(specificAthlete.first?.event_name ?? "N/A")
-                                .italic()
-                                .font(.headline)
-                                .foregroundStyle(.secondary)
-                            
-                            Rectangle()
-                                .fill(.white.opacity(0.5))
-                                .frame(height: 1)
-                            
-                            HStack {
-                                Text("Placing: \(ordinalSuffix(for: specificAthlete.first?.athlete_rank ?? 0))")
-                                Spacer()
-                                Text("Gender: \(specificAthlete.first?.gender ?? "N/A")")
-                            }
-                            .font(.headline)
-                            
-                            if let handle = specificAthlete.first?.instagram_handle,
-                               let url = URL(string: "https://instagram.com/\(handle)") {
-                                
-                                Rectangle()
-                                    .fill(.white.opacity(0.5))
-                                    .frame(height: 1)
-                                
-                                Link(handle, destination: url)
-                                    .multilineTextAlignment(.center)
-                                    .font(.system(size: 18))
-                                    .bold()
-                                    .foregroundStyle(.white)
-                            }
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(16)
-                        .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
-                                )
-                        )
-                        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                        .padding(.horizontal)
-                        .padding(.bottom, 12)
+                        HeaderSection(specificAthlete: displayResults)
                         
                         HStack {
                             Text("Category Scores")
@@ -120,10 +62,10 @@ struct AthleteDetailsView: View {
                         .padding(.horizontal)
                         
                         LazyVGrid(columns: columns) {
-                            ScoreBySectionGrid(title: "Speed", score: specificAthlete.first?.speed_score ?? 0, icon: "speed")
-                            ScoreBySectionGrid(title: "Power", score: specificAthlete.first?.power_score ?? 0, icon: "power")
-                            ScoreBySectionGrid(title: "Strength", score: specificAthlete.first?.strength_score ?? 0, icon: "strength")
-                            ScoreBySectionGrid(title: "Endurance", score: specificAthlete.first?.endurance_score ?? 0, icon: "endurance")
+                            ScoreBySectionGrid(title: "Speed", score: min(displayResults.first?.speed_score ?? 0, 250), icon: "speed")
+                            ScoreBySectionGrid(title: "Power", score: min(displayResults.first?.power_score ?? 0, 250), icon: "power")
+                            ScoreBySectionGrid(title: "Strength", score: min(displayResults.first?.strength_score ?? 0, 250), icon: "strength")
+                            ScoreBySectionGrid(title: "Endurance", score: min(displayResults.first?.endurance_score ?? 0, 250), icon: "endurance")
                         }
                         .padding(.horizontal)
                         
@@ -134,25 +76,102 @@ struct AthleteDetailsView: View {
                         }
                         .padding(.horizontal)
                         
-                        ScoreByEvent(title: "Fast Forty", score: apexScore.speedScore, icon: "speed", result: specificAthlete.first?.fast_forty ?? "N/A", max: "4.21", min: "6.00")
-                        ScoreByEvent(title: "Max Toss", score: apexScore.tossScore, icon: "power", result: specificAthlete.first?.max_toss ?? "N/A", max: "75'0\"", min: "37'6\"")
-                        ScoreByEvent(title: "The Vertical", score: apexScore.verticalScore, icon: "power", result: specificAthlete.first?.the_vertical ?? "N/A", max: "45\"", min: "16\"")
-                        ScoreByEvent(title: "The Broad", score: apexScore.broadScore, icon: "power", result: specificAthlete.first?.the_broad ?? "N/A", max: "11'6\"", min: "6'0\"")
-                        ScoreByEvent(title: "The Push", score: apexScore.pushScore, icon: "strength", result: specificAthlete.first?.the_push ?? 0, max: "40", min: "5")
-                        ScoreByEvent(title: "The Pull", score: apexScore.pullScore, icon: "strength", result: specificAthlete.first?.the_pull ?? 0, max: "40", min: "5")
-                        ScoreByEvent(title: "The Mile", score: apexScore.enduranceScore, icon: "endurance", result: specificAthlete.first?.the_mile ?? "N/A", max: "4:00", min: "10:00")
+                        ScoreByEvent(title: "Fast Forty", score: apexScore.speedScore, icon: "speed", result: displayResults.first?.fast_forty ?? "N/A", max: "4.30", min: "5.40")
+                        ScoreByEvent(title: "Max Toss", score: apexScore.tossScore, icon: "power", result: displayResults.first?.max_toss ?? "N/A", max: "75'0\"", min: "37'6\"")
+                        ScoreByEvent(title: "The Vertical", score: apexScore.verticalScore, icon: "power", result: displayResults.first?.the_vertical ?? "N/A", max: "45\"", min: "15\"")
+                        ScoreByEvent(title: "The Broad", score: apexScore.broadScore, icon: "power", result: displayResults.first?.the_broad ?? "N/A", max: "11'6\"", min: "6'0\"")
+                        ScoreByEvent(title: "The Push", score: apexScore.pushScore, icon: "strength", result: displayResults.first?.the_push ?? 0, max: "40", min: "4")
+                        ScoreByEvent(title: "The Pull", score: apexScore.pullScore, icon: "strength", result: displayResults.first?.the_pull ?? 0, max: "40", min: "4")
+                        ScoreByEvent(title: "The Mile", score: apexScore.enduranceScore, icon: "endurance", result: displayResults.first?.the_mile ?? "N/A", max: "4:30", min: "10:06")
                     }
                     .padding(.bottom)
                 }
             }
-            .navigationTitle(athlete.athlete_name)
+            .navigationTitle(athlete?.athlete_name ?? displayResults.first?.athlete_name ?? "N/A")
             .navigationBarTitleDisplayMode(.inline)
             .preferredColorScheme(.dark)
             .task {
-                await viewModel.fetchSpecificAthlete(name: athlete.athlete_name)
+                // Only fetch if we don't already have eventResults passed in
+                if eventResults == nil, let athleteName = athlete?.athlete_name {
+                    await viewModel.fetchSpecificAthlete(name: athleteName)
+                }
                 updateScores()
             }
         }
+    }
+}
+
+struct HeaderSection: View {
+    var specificAthlete: [ApexResults]
+    
+    private func ordinalSuffix(for number: Int) -> String {
+        let ones = number % 10
+        let tens = (number % 100) / 10
+        
+        if tens == 1 {
+            return "\(number)th"
+        }
+        
+        switch ones {
+        case 1:
+            return "\(number)st"
+        case 2:
+            return "\(number)nd"
+        case 3:
+            return "\(number)rd"
+        default:
+            return "\(number)th"
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            Text("APEX SCORE: \(specificAthlete.first?.apex_score ?? 0)")
+                .font(.title.bold())
+            
+            Text(specificAthlete.first?.event_name ?? "N/A")
+                .italic()
+                .font(.headline)
+                .foregroundStyle(.secondary)
+            
+            Rectangle()
+                .fill(.white.opacity(0.5))
+                .frame(height: 1)
+            
+            HStack {
+                Text("Placing: \(ordinalSuffix(for: specificAthlete.first?.athlete_rank ?? 0))")
+                Spacer()
+                Text("Gender: \(specificAthlete.first?.gender ?? "N/A")")
+            }
+            .font(.headline)
+            
+            if let handle = specificAthlete.first?.instagram_handle,
+               let url = URL(string: "https://instagram.com/\(handle)") {
+                
+                Rectangle()
+                    .fill(.white.opacity(0.5))
+                    .frame(height: 1)
+                
+                Link(handle, destination: url)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 18))
+                    .bold()
+                    .foregroundStyle(.white)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding(16)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color(red: 48/255, green: 41/255, blue: 47/255).opacity(0.6))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+        )
+        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+        .padding(.horizontal)
+        .padding(.bottom, 12)
     }
 }
 

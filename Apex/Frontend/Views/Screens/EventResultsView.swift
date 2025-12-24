@@ -54,37 +54,39 @@ struct ResultsSection: View {
     
     var body: some View {
         ForEach(eventResults, id: \.id) { result in
-            HStack {
-                HStack{
-                    Text("\(result.athlete_rank)")
-                        .bold()
-                        .font(.title)
-                        .padding(.trailing)
-                        .foregroundStyle(podiumColors(result.athlete_rank))
-                }
-                Spacer()
-                
-                VStack {
-                    Text(result.athlete_name)
-                        .font(.system(size: 24))
-                        .multilineTextAlignment(.center)
-                    Text(dateFormat(result.date) ?? "N/A")
-                        .foregroundStyle(.secondary)
-                        .font(.subheadline)
-                }
-                
-                Spacer()
-                
+            NavigationLink(destination: AthleteDetailsView(eventResults: [result])) {
                 HStack {
-                    Text("\(result.apex_score)")
-                        .bold()
-                        .font(.title)
-                        .padding(.leading)
-                        .foregroundStyle(colorForRank(category(result.apex_score)))
+                    HStack{
+                        Text("\(result.athlete_rank)")
+                            .bold()
+                            .font(.title)
+                            .padding(.trailing)
+                            .foregroundStyle(podiumColors(result.athlete_rank))
+                    }
+                    Spacer()
+                    
+                    VStack {
+                        Text(result.athlete_name)
+                            .font(.system(size: 24))
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.white)
+                        Text(dateFormat(result.date) ?? "N/A")
+                            .foregroundStyle(.white.opacity(0.5))
+                            .font(.subheadline)
+                    }
+                    
+                    Spacer()
+                    
+                    HStack {
+                        Text("\(result.apex_score)")
+                            .bold()
+                            .font(.title)
+                            .padding(.leading)
+                            .foregroundStyle(colorForRank(category(result.apex_score)))
+                    }
                 }
-                
+                .cardStyling()
             }
-            .cardStyling()
         }
     }
 }

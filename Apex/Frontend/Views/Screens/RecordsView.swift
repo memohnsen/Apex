@@ -54,40 +54,43 @@ struct RecordsView: View {
                         
                         VStack {
                             ForEach(records, id: \.id) { record in
-                                VStack{
-                                    HStack{
-                                        Image(image(record.event_name))
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: 30, height: 30)
-                                        Text(record.event_name)
-                                            .font(.title)
+                                NavigationLink(destination: AthleteDetailsView(athlete: Athletes(id: record.id, athlete_name: record.record_holder))) {
+                                    VStack{
+                                        HStack{
+                                            Image(image(record.event_name))
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 30, height: 30)
+                                            Text(record.event_name)
+                                                .font(.title)
+                                                .bold()
+                                            
+                                            Spacer()
+                                        }
+                                        Spacer()
+                                        
+                                        Text("\(record.record_value) \(recordSubText(record.event_name))")
+                                            .font(.system(size: 24))
                                             .bold()
+                                            .padding(.vertical)
                                         
                                         Spacer()
-                                    }
-                                    Spacer()
-                                    
-                                    Text("\(record.record_value) \(recordSubText(record.event_name))")
-                                        .font(.system(size: 24))
-                                        .bold()
-                                        .padding(.vertical)
-                                    
-                                    Spacer()
-                                    
-                                    Text(record.record_holder)
-                                        .multilineTextAlignment(.center)
-                                        .font(.system(size: 18))
-                                        .bold()
-                                    
-                                    if let handle = record.instagram_handle,
-                                       let url = URL(string: "https://instagram.com/\(handle)") {
-                                        Link(handle, destination: url)
+                                        
+                                        Text(record.record_holder)
                                             .multilineTextAlignment(.center)
                                             .font(.system(size: 18))
                                             .bold()
-                                            .foregroundStyle(.white)
+                                        
+                                        if let handle = record.instagram_handle,
+                                           let url = URL(string: "https://instagram.com/\(handle)") {
+                                            Link(handle, destination: url)
+                                                .multilineTextAlignment(.center)
+                                                .font(.system(size: 18))
+                                                .bold()
+                                                .foregroundStyle(.white)
+                                        }
                                     }
+                                    .foregroundStyle(.white)
                                 }
                                 .padding()
                                 .frame(maxWidth: .infinity)

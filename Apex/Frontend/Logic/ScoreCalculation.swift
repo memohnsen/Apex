@@ -33,7 +33,7 @@ class ApexScore {
         let maxPoints = 250.0
         
         let score = maxPoints * (maxTime - time) / (maxTime - minTime)
-        return Int(score.rounded())
+        return min(Int(score.rounded()), 250)
     }
     
     var powerScore: Int {
@@ -42,20 +42,24 @@ class ApexScore {
         //The broad - 72in (min) to 138in (max)
         //Vertical jump - 15in (min) to 45in (max)
         
-        guard let toss = Int(maxToss), let broad = Int(theBroad), let vertical = Int(verticalJump) else {
+        let tossInches = parseFeetInches(maxToss)
+        let broadInches = parseFeetInches(theBroad)
+        let verticalInches = parseInches(verticalJump)
+        
+        guard tossInches > 0, broadInches > 0, verticalInches > 0 else {
             return 0
         }
         
         // Calculate percentage for each event, then scale to 250 total
-        let tossPercent = calculatePercentage(value: Double(toss), min: 450, max: 900)
-        let broadPercent = calculatePercentage(value: Double(broad), min: 72, max: 138)
-        let verticalPercent = calculatePercentage(value: Double(vertical), min: 15, max: 45)
+        let tossPercent = calculatePercentage(value: Double(tossInches), min: 450, max: 900)
+        let broadPercent = calculatePercentage(value: Double(broadInches), min: 72, max: 138)
+        let verticalPercent = calculatePercentage(value: Double(verticalInches), min: 15, max: 45)
         
         // Average the three percentages and scale to 250 points
         let averagePercent = (tossPercent + broadPercent + verticalPercent) / 3.0
         let score = 250.0 * averagePercent
         
-        return Int(score.rounded())
+        return min(Int(score.rounded()), 250)
     }
     
     var tossScore: Int {
@@ -65,7 +69,7 @@ class ApexScore {
         let tossPercent = calculatePercentage(value: Double(tossInches), min: 450, max: 900)
         let score = 83.33 * tossPercent // Max toss is 1/3 of power score (250/3 ≈ 83.33)
         
-        return Int(score.rounded())
+        return min(Int(score.rounded()), 83)
     }
     
     var broadScore: Int {
@@ -75,7 +79,7 @@ class ApexScore {
         let broadPercent = calculatePercentage(value: Double(broadInches), min: 72, max: 138)
         let score = 83.33 * broadPercent // The broad is 1/3 of power score (250/3 ≈ 83.33)
         
-        return Int(score.rounded())
+        return min(Int(score.rounded()), 83)
     }
     
     var verticalScore: Int {
@@ -85,7 +89,7 @@ class ApexScore {
         let verticalPercent = calculatePercentage(value: Double(verticalInches), min: 15, max: 45)
         let score = 83.33 * verticalPercent // Vertical is 1/3 of power score (250/3 ≈ 83.33)
         
-        return Int(score.rounded())
+        return min(Int(score.rounded()), 83)
     }
     
     var strengthScore: Int {
@@ -100,7 +104,7 @@ class ApexScore {
         let pullScore = calculateLinearScore(value: Double(pull), min: 4, max: 40, maxPoints: 125)
         let pushScore = calculateLinearScore(value: Double(push), min: 4, max: 40, maxPoints: 125)
         
-        return Int((pullScore + pushScore).rounded())
+        return min(Int((pullScore + pushScore).rounded()), 250)
     }
     
     var pullScore: Int {
@@ -110,7 +114,7 @@ class ApexScore {
         
         let pullScore = calculateLinearScore(value: Double(pull), min: 4, max: 40, maxPoints: 125)
         
-        return Int(pullScore)
+        return min(Int(pullScore.rounded()), 125)
     }
     
     var pushScore: Int {
@@ -120,7 +124,7 @@ class ApexScore {
         
         let pushScore = calculateLinearScore(value: Double(push), min: 4, max: 40, maxPoints: 125)
 
-        return Int(pushScore)
+        return min(Int(pushScore.rounded()), 125)
     }
     
     var enduranceScore: Int {
