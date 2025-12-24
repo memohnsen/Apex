@@ -6,13 +6,32 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7116D0D42EFC119E001E9FBC /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7116D0D32EFC119E001E9FBC /* Config.xcconfig */; };
+		7116D0DB2EFC122B001E9FBC /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7116D0DA2EFC122B001E9FBC /* Supabase */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		7116CFF42EFB26F4001E9FBC /* Apex.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Apex.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7116D0D32EFC119E001E9FBC /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7116D0D62EFC11C0001E9FBC /* Exceptions for "Apex" folder in "Apex" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7116CFF32EFB26F4001E9FBC /* Apex */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7116CFF62EFB26F4001E9FBC /* Apex */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7116D0D62EFC11C0001E9FBC /* Exceptions for "Apex" folder in "Apex" target */,
+			);
 			path = Apex;
 			sourceTree = "<group>";
 		};
@@ -23,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7116D0DB2EFC122B001E9FBC /* Supabase in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +52,7 @@
 		7116CFEB2EFB26F3001E9FBC = {
 			isa = PBXGroup;
 			children = (
+				7116D0D32EFC119E001E9FBC /* Config.xcconfig */,
 				7116CFF62EFB26F4001E9FBC /* Apex */,
 				7116CFF52EFB26F4001E9FBC /* Products */,
 			);
@@ -65,6 +86,7 @@
 			);
 			name = Apex;
 			packageProductDependencies = (
+				7116D0DA2EFC122B001E9FBC /* Supabase */,
 			);
 			productName = Apex;
 			productReference = 7116CFF42EFB26F4001E9FBC /* Apex.app */;
@@ -94,6 +116,9 @@
 			);
 			mainGroup = 7116CFEB2EFB26F3001E9FBC;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7116D0D92EFC122B001E9FBC /* XCRemoteSwiftPackageReference "supabase-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7116CFF52EFB26F4001E9FBC /* Products */;
 			projectDirPath = "";
@@ -109,6 +134,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7116D0D42EFC119E001E9FBC /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -256,6 +282,7 @@
 				DEVELOPMENT_TEAM = HCK9FFW6UX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Apex/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -292,6 +319,7 @@
 				DEVELOPMENT_TEAM = HCK9FFW6UX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Apex/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -340,6 +368,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7116D0D92EFC122B001E9FBC /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7116D0DA2EFC122B001E9FBC /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7116D0D92EFC122B001E9FBC /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7116CFEC2EFB26F3001E9FBC /* Project object */;
 }
