@@ -11,7 +11,7 @@ struct ScoreResultsView: View {
     @Bindable var apexScore: ApexScore
     
     private func determineQuadrant(x: Int, y: Int) -> QuadrantPosition {
-        let midpoint = 125 // Half of 250
+        let midpoint = 125
         
         if y >= midpoint && x < midpoint {
             return .topLeft
@@ -116,7 +116,7 @@ struct ScoreResultsView: View {
                                 .padding()
                                 .bold()
                                 .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [.orange, .orange], startPoint: .leading, endPoint: .trailing))
+                                .background(.orange.opacity(0.7))
                                 .foregroundStyle(.white)
                                 .clipShape(.rect(cornerRadius: 12))
                                 .padding(.bottom, 6)
@@ -125,7 +125,7 @@ struct ScoreResultsView: View {
                                 .padding()
                                 .bold()
                                 .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [.green, .green], startPoint: .leading, endPoint: .trailing))
+                                .background(.green.opacity(0.7))
                                 .foregroundStyle(.white)
                                 .clipShape(.rect(cornerRadius: 12))
                                 .padding(.bottom, 6)
@@ -134,7 +134,7 @@ struct ScoreResultsView: View {
                                 .padding()
                                 .bold()
                                 .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [.purple, .purple], startPoint: .leading, endPoint: .trailing))
+                                .background(.purple.opacity(0.7))
                                 .foregroundStyle(.white)
                                 .clipShape(.rect(cornerRadius: 12))
                                 .padding(.bottom, 6)
@@ -144,7 +144,7 @@ struct ScoreResultsView: View {
                                 .padding()
                                 .bold()
                                 .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [.blue, .blue], startPoint: .leading, endPoint: .trailing))
+                                .background(.blue.opacity(0.7))
                                 .foregroundStyle(.white)
                                 .clipShape(.rect(cornerRadius: 12))
                                 .padding(.bottom, 6)
@@ -153,7 +153,7 @@ struct ScoreResultsView: View {
                                 .padding()
                                 .bold()
                                 .frame(maxWidth: .infinity)
-                                .background(LinearGradient(colors: [.gray, .gray], startPoint: .leading, endPoint: .trailing))
+                                .background(.gray.opacity(0.7))
                                 .foregroundStyle(.white)
                                 .clipShape(.rect(cornerRadius: 12))
                                 .padding(.bottom, 6)
@@ -311,6 +311,18 @@ struct QuadrantView: View {
     }
 }
 
+func createSampleScore() -> ApexScore {
+    let score = ApexScore()
+    score.fortyDash = "4.8"
+    score.maxToss = "65'0\""
+    score.theBroad = "9'6\""
+    score.verticalJump = "32\""
+    score.thePull = "25"
+    score.thePush = "30"
+    score.theMile = "6:15"
+    return score
+}
+
 #Preview {
-    ScoreResultsView(apexScore: ApexScore())
+    ScoreResultsView(apexScore: createSampleScore())
 }

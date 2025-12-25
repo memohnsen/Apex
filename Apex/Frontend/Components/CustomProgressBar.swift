@@ -22,7 +22,7 @@ struct CustomProgressBar: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(
                         LinearGradient(
-                            colors: [fillColor, fillColor.opacity(0.7)],
+                            colors: [fillColor.opacity(0.1), fillColor],
                             startPoint: .leading,
                             endPoint: .trailing
                         )

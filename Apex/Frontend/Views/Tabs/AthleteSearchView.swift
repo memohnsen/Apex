@@ -11,6 +11,7 @@ struct AthleteSearchView: View {
     @Bindable private var viewModel = ResultsModel()
     var athletes: [Athletes] { viewModel.athletes }
     var events: [Events] { viewModel.events }
+    var isLoading: Bool { viewModel.isLoading }
     
     @State private var filterButtonClicked: Bool = false
     @State private var genderOptions: [String] = ["All", "Men", "Women"]
@@ -67,7 +68,7 @@ struct AthleteSearchView: View {
                 
                 ScrollView {
                     VStack{
-                        AthleteList(athletes: sortedAthletes)
+                        AthleteList(athletes: sortedAthletes, isLoading: isLoading)
                     }
                     .padding(.vertical)
                 }
@@ -207,17 +208,42 @@ struct FilterModal: View {
 
 struct AthleteList: View {
     var athletes: [Athletes]
+    var isLoading: Bool
+    @State private var isAnimating: Bool = false
     
     var body: some View {
-        ForEach(athletes, id: \.id) {athlete in
-            NavigationLink(destination: AthleteDetailsView(athlete: athlete)) {
-                HStack{
-                    Text(athlete.athlete_name)
+        if isLoading {
+            ForEach(0..<12, id: \.self) { number in
+                HStack {
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.white.opacity(isAnimating ? 0.3 : 0.1))
+                        .frame(width: 150, height: 20)
+                    
                     Spacer()
-                    Image(systemName: "chevron.right")
+                    
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.white.opacity(isAnimating ? 0.2 : 0.05))
+                        .frame(width: 80, height: 16)
                 }
-                .foregroundStyle(.white)
-                .cardStyling()
+                .padding(.horizontal)
+            }
+            .cardStyling()
+            .onAppear {
+                withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
+                    isAnimating = true
+                }
+            }
+        } else {
+            ForEach(athletes, id: \.id) {athlete in
+                NavigationLink(destination: AthleteDetailsView(athlete: athlete)) {
+                    HStack{
+                        Text(athlete.athlete_name)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                    }
+                    .foregroundStyle(.white)
+                    .cardStyling()
+                }
             }
         }
     }

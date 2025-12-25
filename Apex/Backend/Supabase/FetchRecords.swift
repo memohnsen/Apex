@@ -24,7 +24,7 @@ class RecordsModel {
     var error: Error?
     var records: [ApexRecords] = []
     
-    func fetchRecords(gender: String) async {
+func fetchRecords(gender: String) async {
         isLoading = true
         error = nil
         
